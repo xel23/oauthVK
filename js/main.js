@@ -54,7 +54,32 @@ function handler() {
 
 function callbackFunc(result) {
     if (result.response !== undefined || result.response != null) {
-        console.log(result.response);
+        // console.log(result.response['count']);
+        let arrayOfFriends = result.response;
+        let countOfFriends = arrayOfFriends['count'];
+        if (countOfFriends == 0) {
+            let textNoFriends = document.createElement('p');
+            textNoFriends.innerHTML = 'Похоже, у Вас нет друзей :(';
+            document.body.appendChild(textNoFriends);
+        } else {
+            let list = document.createElement('ul');
+            document.body.appendChild(list);
+            for (var i = 0; i < countOfFriends && i < 5; i++) {
+                let friend = document.createElement('li');
+                list.appendChild(friend);
+                let photo = arrayOfFriends['items'][i]['photo_50'];
+
+                let name = arrayOfFriends['items'][i]['first_name'] + ' ' + arrayOfFriends['items'][i]['last_name'];
+                let pName = document.createElement('p');
+                pName.innerHTML = name;
+                let img = document.createElement('img');
+                img.src = photo;
+
+                list.appendChild(friend);
+                friend.appendChild(img);
+                friend.appendChild(pName);
+            }
+        }
     } else {
         returnToMainPage();
     }
