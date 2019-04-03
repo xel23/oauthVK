@@ -28,14 +28,17 @@ function auth() {
     let SECRET = 'SXSenudXDNJgyeGqQsTv';
     let redirectURI = 'http://www.besplatnie-filmi-onlain.ru/11/site/';
 
+    let div = document.createElement('div');
+    div.className = 'btn';
     let a = document.createElement('a');
     a.href = 'https://oauth.vk.com/authorize?client_id=' + ID + '&display=page&redirect_uri=' + redirectURI +
         '&scope=friends&response_type=token&v=5.92';
     let btn = document.createElement('button');
     btn.type = 'submit';
-    btn.innerHTML = 'Войти';
+    btn.innerHTML = 'Войти через VK';
 
-    document.body.appendChild(a);
+    document.body.appendChild(div);
+    div.appendChild(a);
     a.appendChild(btn);
 }
 
@@ -52,6 +55,19 @@ function handler() {
     }
 }
 
+function showUserInfo(result) {
+    if (result.response !== undefined || result.response != null) {
+        // console.log(result.response[0]['first_name']);
+        let userInfo = result.response;
+        let p = document.createElement('p');
+        p.className = 'userInfo';
+        p.innerHTML = 'Здравствуй, ' + userInfo[0]['first_name'] + ' ' + userInfo[0]['last_name'] + '!';
+        document.getElementsByClassName('blockUser')[0].appendChild(p);
+    } else {
+        returnToMainPage();
+    }
+}
+
 function callbackFunc(result) {
     if (result.response !== undefined || result.response != null) {
         // console.log(result.response['count']);
@@ -60,9 +76,14 @@ function callbackFunc(result) {
         if (countOfFriends == 0) {
             let textNoFriends = document.createElement('p');
             textNoFriends.innerHTML = 'Похоже, у Вас нет друзей :(';
-            document.body.appendChild(textNoFriends);
+            document.getElementsByClassName('blockFriends')[0].appendChild(textNoFriends);
         } else {
-            let list = document.createElement('ul');
+            let article = document.createElement('p');
+            article.className = 'article';
+            article.innerHTML = 'Это твои друзья:';
+            document.body.appendChild(article);
+            let list = document.createElement('ol');
+            list.className = 'bullet';
             document.body.appendChild(list);
             for (var i = 0; i < countOfFriends && i < 5; i++) {
                 let friend = document.createElement('li');
@@ -102,8 +123,19 @@ function returnToMainPage() {
 }
 
 function showContent(access_token, user_id) {
-    let script = document.createElement('SCRIPT');
-    script.src = 'https://api.vk.com/method/friends.search?user_id=' + user_id +
+    let blockUser = document.createElement('div');
+    blockUser.className = 'blockUser';
+    let blockFriends = document.createElement('div');
+    blockFriends.className = 'blockFriends';
+    document.body.appendChild(blockUser);
+    document.body.appendChild(blockFriends);
+    let scriptMe = document.createElement('SCRIPT');
+    scriptMe.src = 'https://api.vk.com/method/users.get?user_id=' + user_id +
+        '&access_token=' + access_token + '&v=5.92&callback=showUserInfo';
+    document.getElementsByTagName("head")[0].appendChild(scriptMe);
+
+    let scriptFriends = document.createElement('SCRIPT');
+    scriptFriends.src = 'https://api.vk.com/method/friends.search?user_id=' + user_id +
         '&fields=photo_50&count=5&access_token=' + access_token + '&v=5.92&callback=callbackFunc';
-    document.getElementsByTagName("head")[0].appendChild(script);
+    document.getElementsByTagName("head")[0].appendChild(scriptFriends);
 }
