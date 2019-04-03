@@ -1,5 +1,4 @@
 if (location.href.indexOf('access_token=') === -1 || location.href.indexOf('user_id=') === -1) {
-    alert(document.cookie);
     checkCookie();
 } else {
     handler();
@@ -62,6 +61,8 @@ function callbackFunc(result) {
 }
 
 function returnToMainPage() {
+    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+
     let textErr = document.createElement('div');
     let pTextErr = document.createElement('p');
     pTextErr.innerHTML = 'Что-то пошло не так...';
