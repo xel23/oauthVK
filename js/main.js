@@ -1,9 +1,11 @@
+// Проверяем пришел ли пользователь после авторизации
 if (location.href.indexOf('access_token=') === -1 || location.href.indexOf('user_id=') === -1) {
     checkCookie();
 } else {
     handler();
 }
 
+// Проверяем куки пользователя, если куки содержат интересущие нас данные, то показываем контент
 function checkCookie() {
     if (document.cookie.indexOf('access_token=') === -1 || document.cookie.indexOf('user_id=') === -1) {
         auth();
@@ -23,6 +25,7 @@ function checkCookie() {
     }
 }
 
+// Авторизация
 function auth() {
     let ID = '6923525';
     let SECRET = 'SXSenudXDNJgyeGqQsTv';
@@ -42,6 +45,7 @@ function auth() {
     a.appendChild(btn);
 }
 
+// Обработка запроса после авторизации
 function handler() {
     if (location.href.indexOf('access_token=') === -1 || location.href.indexOf('user_id=') === -1) {
         returnToMainPage();
@@ -55,6 +59,7 @@ function handler() {
     }
 }
 
+// Колбэк для отображения данных о пользователе
 function showUserInfo(result) {
     if (result.response !== undefined || result.response != null) {
         // console.log(result.response[0]['first_name']);
@@ -68,6 +73,7 @@ function showUserInfo(result) {
     }
 }
 
+// Колбэк для отображения данных о друзьях
 function callbackFunc(result) {
     if (result.response !== undefined || result.response != null) {
         // console.log(result.response['count']);
@@ -106,6 +112,8 @@ function callbackFunc(result) {
     }
 }
 
+// Если что-то пошло не так, чистим, утсановленные нами, куки, выводим сообщение
+// об ошибке и предлагаем вернуться на главную
 function returnToMainPage() {
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 
@@ -122,6 +130,7 @@ function returnToMainPage() {
     textErr.appendChild(returnLink);
 }
 
+// Рисуем контент страницы
 function showContent(access_token, user_id) {
     let blockUser = document.createElement('div');
     blockUser.className = 'blockUser';
