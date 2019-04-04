@@ -29,7 +29,7 @@ function checkCookie() {
 function auth() {
     let ID = '6923525';
     let SECRET = 'SXSenudXDNJgyeGqQsTv';
-    let redirectURI = 'http://www.besplatnie-filmi-onlain.ru/11/site/';
+    let redirectURI = 'https://xel23.github.io/oauthVK/';
 
     let div = document.createElement('div');
     div.className = 'btn';
