@@ -128,6 +128,7 @@ function returnToMainPage() {
     document.body.appendChild(textErr);
     textErr.appendChild(pTextErr);
     textErr.appendChild(returnLink);
+    throw 'Error';
 }
 
 // Рисуем контент страницы
