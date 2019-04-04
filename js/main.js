@@ -115,20 +115,24 @@ function callbackFunc(result) {
 // Если что-то пошло не так, чистим, утсановленные нами, куки, выводим сообщение
 // об ошибке и предлагаем вернуться на главную
 function returnToMainPage() {
-    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    if (document.getElementsByClassName('TextErr')[0] == null) {
+        document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 
-    let textErr = document.createElement('div');
-    let pTextErr = document.createElement('p');
-    pTextErr.innerHTML = 'Что-то пошло не так...';
+        let textErr = document.createElement('div');
+        textErr.className = 'textErr';
+        let pTextErr = document.createElement('p');
+        pTextErr.innerHTML = 'Что-то пошло не так...';
 
-    let returnLink = document.createElement('a');
-    returnLink.href = 'index.html';
-    returnLink.innerHTML = 'Вернуться на главную';
+        let returnLink = document.createElement('a');
+        returnLink.href = 'index.html';
+        returnLink.innerHTML = 'Вернуться на главную';
 
-    document.body.appendChild(textErr);
-    textErr.appendChild(pTextErr);
-    textErr.appendChild(returnLink);
-    throw 'Error';
+        document.body.appendChild(textErr);
+        textErr.appendChild(pTextErr);
+        textErr.appendChild(returnLink);
+    } else {
+        return;
+    }
 }
 
 // Рисуем контент страницы
