@@ -115,7 +115,7 @@ function callbackFunc(result) {
 // Если что-то пошло не так, чистим, утсановленные нами, куки, выводим сообщение
 // об ошибке и предлагаем вернуться на главную
 function returnToMainPage() {
-    if (document.getElementsByClassName('TextErr')[0] == null) {
+    if (document.getElementsByClassName('textErr')[0] == null) {
         document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 
         let textErr = document.createElement('div');
